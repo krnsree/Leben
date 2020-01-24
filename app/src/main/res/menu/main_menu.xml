@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <menu xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+        <item
+            android:id="@+id/hospital"
+            android:enabled="true"
+            android:icon="@drawable/hospital_icon"
+            android:title="hospital"
+            app:cnb_iconColor="@color/colorPrimary"
+            app:showAsAction="ifRoom"/>
+        <item
+            android:id="@+id/clinic"
+            android:enabled="true"
+            android:title="clinic"
+            android:icon="@drawable/ic_local_pharmacy_black_24dp"
+            app:cnb_iconColor="@color/colorPrimary"
+            app:showAsAction="ifRoom" />
+        <item
+            android:id="@+id/account"
+            android:enabled="true"
+            android:icon="@drawable/ic_account_box_black_24dp"
+            android:title="account"
+            app:cnb_iconColor="@color/colorPrimary"
+            app:showAsAction="ifRoom"/>
+    </menu>
