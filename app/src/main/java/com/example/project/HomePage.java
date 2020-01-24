@@ -19,9 +19,9 @@ public class HomePage extends AppCompatActivity {
     ChipNavigationBar navBar;
 
     FragmentManager fragmentManager = getSupportFragmentManager();
-    Fragment homeFragment = new com.example.project.HospitalFragment();
-    Fragment clinincFragment = new com.example.project.ClinicFragment();
-    Fragment accountFragment = new com.example.project.AccountFragment();
+    Fragment homeFragment = new HospitalFragment();
+    Fragment clinincFragment = new ClinicFragment();
+    Fragment accountFragment = new AccountFragment();
     Fragment activeFragment = homeFragment;
 
     @Override
