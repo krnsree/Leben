@@ -7,35 +7,25 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="8dp">
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Location"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/container"
-        android:background="@color/card_bg_color" />
-
     <RelativeLayout
         android:id="@+id/container"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="20dp"
         android:background="@drawable/card_bg"
         android:paddingBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent">
 
         <TextView
             android:id="@+id/location"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tv_title"
-            android:layout_alignStart="@+id/tv_title"
-            android:layout_alignLeft="@id/tv_title"
+            android:layout_below="@id/title"
+            android:layout_alignStart="@+id/title"
+            android:layout_alignLeft="@id/title"
             android:layout_marginTop="8dp"
             android:layout_marginRight="16dp"
             android:lineSpacingExtra="8dp"
@@ -71,7 +61,7 @@
             android:textColor="@color/content_text_color" />
 
         <TextView
-            android:id="@+id/tv_title"
+            android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
@@ -83,6 +73,20 @@
             android:text="Simple Title Text "
             android:textColor="@color/colorPrimary"
             android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="330dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/time"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="37dp"
+            android:layout_marginEnd="19dp"
+            android:background="@drawable/card_bg"
+            android:text="Location"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/time" />
 
     </RelativeLayout>
 
