@@ -4,37 +4,47 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
-import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import java.util.ArrayList;
 
-public class HospitalAdapter extends FirestoreRecyclerAdapter<RVCell,HospitalAdapter.ViewHolder> {
+public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.ViewHolder> {
 
-    Context context;
 
-    public HospitalAdapter(@NonNull FirestoreRecyclerOptions<RVCell> options, Context context){
-        super(options);
-        this.context=context;
-    }
+    private final Context context;
+    ArrayList<RVCell> hospitalLists;
+    ProgressBar progressBar;
 
-    @Override
-    protected void onBindViewHolder(@NonNull ViewHolder holder, int position, @NonNull RVCell model)
+    public HospitalAdapter(ArrayList<RVCell> hospitalLists, Context context)
     {
-        holder.location.setText(model.getLocation());
-        holder.title.setText(model.getName());
-        holder.phone.setText(model.getPhno());
-        holder.time.setText(model.getTime());
+        this.context=context;
+        this.hospitalLists=hospitalLists;
+        this.progressBar=progressBar;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(context).inflate(R.layout.rv_cell, parent, false);
-        return new ViewHolder(v);
+        View view=LayoutInflater.from(context).inflate(R.layout.rv_cell,parent,false);
+        return new ViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position)
+    {
+        holder.title.setText(hospitalLists.get(position).getName());
+        holder.location.setText(hospitalLists.get(position).getLocation());
+        holder.time.setText(hospitalLists.get(position).getTime());
+        holder.phone.setText(hospitalLists.get(position).getPhno());
+    }
+
+    @Override
+    public int getItemCount() {
+        return hospitalLists.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
