@@ -74,15 +74,18 @@ public class HospitalFragment extends Fragment {
                     progressBar.setVisibility(View.INVISIBLE);
                     if(task.isSuccessful())
                     {
+
                         for(QueryDocumentSnapshot documentSnapshot : task.getResult())
                         {
-                            RVCell rvcell=new RVCell();
-                            rvcell.setName(String.valueOf(documentSnapshot.getData().get("name")));
-                            rvcell.setAddress(String.valueOf(documentSnapshot.getData().get("address")));
-                            rvcell.setLocation(String.valueOf(documentSnapshot.getData().get("location")));
-                            rvcell.setTime(String.valueOf(documentSnapshot.getData().get("time")));
-                            rvcell.setPhno(String.valueOf(documentSnapshot.getData().get("phno")));
-                            hospitalLists.add(rvcell);
+                            if (documentSnapshot.exists()) {
+                                RVCell rvcell = new RVCell();
+                                rvcell.setName(String.valueOf(documentSnapshot.getData().get("name")));
+                                rvcell.setAddress(String.valueOf(documentSnapshot.getData().get("address")));
+                                rvcell.setLocation(String.valueOf(documentSnapshot.getData().get("location")));
+                                rvcell.setTime(String.valueOf(documentSnapshot.getData().get("time")));
+                                rvcell.setPhno(String.valueOf(documentSnapshot.getData().get("phno")));
+                                hospitalLists.add(rvcell);
+                            }
 
                         }
                         hospitalAdapter.notifyDataSetChanged();

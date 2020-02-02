@@ -1,6 +1,7 @@
 package com.example.project;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +41,7 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.ViewHo
         holder.location.setText(hospitalLists.get(position).getLocation());
         holder.time.setText(hospitalLists.get(position).getTime());
         holder.phone.setText(hospitalLists.get(position).getPhno());
+        Log.e("tag", "onBindViewHolder: "+hospitalLists.get(position).getName() );
     }
 
     @Override

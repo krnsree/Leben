@@ -11,7 +11,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        android:id="@+id/hospitalList"/>
+        android:id="@+id/hospitalList"
+        android:layout_marginBottom="40dp"
+        android:paddingBottom="40dp"/>
 
     <ProgressBar
         android:layout_width="70dp"
