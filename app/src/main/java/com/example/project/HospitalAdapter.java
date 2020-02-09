@@ -1,6 +1,7 @@
 package com.example.project;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
@@ -45,10 +47,16 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.ViewHo
         holder.time.setText(hospitalLists.get(position).getTime());
         holder.phone.setText(hospitalLists.get(position).getPhno());
        // Log.e("tag", "onBindViewHolder: "+hospitalLists.get(position).getName() );
-        details_fragment df=new details_fragment();
+
         holder.card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Gson gson = new Gson();
+                String list = gson.toJson(hospitalLists.get(position));
+                Bundle bundle=new Bundle();
+                bundle.putString("MD_Details",list);
+                details_fragment df=new details_fragment();
+                df.setArguments(bundle);
               fm.beginTransaction().replace(R.id.frameLayout
                       , df ).addToBackStack(null).commitAllowingStateLoss();
             }

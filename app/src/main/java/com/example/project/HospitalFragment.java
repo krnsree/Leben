@@ -17,6 +17,7 @@ import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
 import java.util.ArrayList;
 
@@ -31,6 +32,9 @@ public class HospitalFragment extends Fragment {
 
     @BindView(R.id.hrshimmer)
     ShimmerFrameLayout hrshimmer;
+
+    /*@BindView(R.id.event_action_bar)
+    Toolbar toolbar;*/
 
     CollectionReference medcenters;
     FirebaseFirestore ref;
@@ -51,6 +55,15 @@ public class HospitalFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_hospital, container, false);
         ButterKnife.bind(this,view);
+
+        ChipNavigationBar bn=getActivity().findViewById(R.id.navBar);
+        bn.setVisibility(View.VISIBLE);
+
+        /*AppCompatActivity activity = (AppCompatActivity) getActivity();
+        if (activity != null) {
+            activity.setSupportActionBar(toolbar);
+        }*/
+
         hospitalList.setHasFixedSize(true);
         hospitalAdapter=new HospitalAdapter(hospitalLists,getContext(),getActivity().getSupportFragmentManager());
         hospitalList.setAdapter(hospitalAdapter);
@@ -100,6 +113,7 @@ public class HospitalFragment extends Fragment {
                                 rvcell.setLocation(String.valueOf(documentSnapshot.getData().get("location")));
                                 rvcell.setTime(String.valueOf(documentSnapshot.getData().get("time")));
                                 rvcell.setPhno(String.valueOf(documentSnapshot.getData().get("phno")));
+                                rvcell.setHomeurl(String.valueOf(documentSnapshot.getData().get("homeurl")));
                                 hospitalLists.add(rvcell);
                             }
 
@@ -125,6 +139,9 @@ public class HospitalFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+
+
+
         if (!isDataAvailable) {
             hrshimmer.stopShimmerAnimation();
             hrshimmer.setVisibility(View.GONE);

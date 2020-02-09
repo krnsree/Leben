@@ -10,7 +10,6 @@ tools:context=".MainActivity"
 android:background="@drawable/back21">
 
 
-
     <com.ismaeldivita.chipnavigation.ChipNavigationBar
         android:id="@+id/navBar"
         android:layout_width="match_parent"

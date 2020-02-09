@@ -7,6 +7,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".HospitalFragment">
 
+    <include layout="@layout/toolbar" />
+
     <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/hrshimmer"
         android:layout_width="match_parent"
