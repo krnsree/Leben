@@ -54,6 +54,7 @@ public class Login_Acticvity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login__acticvity);
 
+
         ButterKnife.bind(this);
 
         auth = FirebaseAuth.getInstance();

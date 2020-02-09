@@ -5,10 +5,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -18,20 +19,22 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.ViewHo
 
     private final Context context;
     ArrayList<RVCell> hospitalLists;
-    ProgressBar progressBar;
+    FragmentManager fm;
 
-    public HospitalAdapter(ArrayList<RVCell> hospitalLists, Context context)
+    public HospitalAdapter(ArrayList<RVCell> hospitalLists, Context context, FragmentManager activity)
     {
+        Log.e("Tag", "HospitalAdapter: here" );
         this.context=context;
         this.hospitalLists=hospitalLists;
-        this.progressBar=progressBar;
+        this.fm=activity;
+        Log.e("Tag", "HospitalAdapter: "+hospitalLists.size() );
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view=LayoutInflater.from(context).inflate(R.layout.rv_cell,parent,false);
-        return new ViewHolder(view);
+        return new HospitalAdapter.ViewHolder(view);
     }
 
     @Override
@@ -41,7 +44,16 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.ViewHo
         holder.location.setText(hospitalLists.get(position).getLocation());
         holder.time.setText(hospitalLists.get(position).getTime());
         holder.phone.setText(hospitalLists.get(position).getPhno());
-        Log.e("tag", "onBindViewHolder: "+hospitalLists.get(position).getName() );
+       // Log.e("tag", "onBindViewHolder: "+hospitalLists.get(position).getName() );
+        details_fragment df=new details_fragment();
+        holder.card.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+              fm.beginTransaction().replace(R.id.frameLayout
+                      , df ).addToBackStack(null).commitAllowingStateLoss();
+            }
+        });
+
     }
 
     @Override
@@ -52,6 +64,7 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.ViewHo
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView title,location,time,phone;
+        CardView card;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -59,6 +72,7 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.ViewHo
             location=itemView.findViewById(R.id.location);
             time=itemView.findViewById(R.id.time);
             phone=itemView.findViewById(R.id.phno);
+            card=itemView.findViewById(R.id.card);
         }
     }
 

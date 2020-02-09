@@ -7,18 +7,37 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".HospitalFragment">
 
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/hrshimmer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible"
+        android:layout_marginBottom="50dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <include layout="@layout/recycler_view_place_holder" />
+
+            <include layout="@layout/recycler_view_place_holder" />
+
+            <include layout="@layout/recycler_view_place_holder" />
+
+            <include layout="@layout/recycler_view_place_holder" />
+
+            <include layout="@layout/recycler_view_place_holder" />
+        </LinearLayout>
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:id="@+id/hospitalList"
-        android:layout_marginBottom="40dp"
-        android:paddingBottom="40dp"/>
+        android:layout_marginBottom="55dp" />
 
-    <ProgressBar
-        android:layout_width="70dp"
-        android:layout_height="61dp"
-        android:layout_gravity="center"
-        android:id="@+id/rvProgressBar" />
 
 </LinearLayout>

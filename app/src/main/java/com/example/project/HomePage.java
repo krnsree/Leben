@@ -38,24 +38,25 @@ public class HomePage extends AppCompatActivity {
         navBar.setOnItemSelectedListener(i -> {
             switch (i) {
                 case R.id.hospital:
-                    fragmentManager.beginTransaction()
-                            .hide(activeFragment)
+                    getSupportFragmentManager()
+                            .beginTransaction()
                             .replace(R.id.frameLayout, homeFragment)
-                            .commit();
+                            .addToBackStack(null)
+                            .commitAllowingStateLoss();
                     activeFragment = homeFragment;
                     break;
                 case R.id.clinic:
                     fragmentManager.beginTransaction()
-                            .hide(activeFragment)
                             .replace(R.id.frameLayout, clinincFragment)
-                            .commit();
+                            .addToBackStack(null)
+                            .commitAllowingStateLoss();
                     activeFragment = clinincFragment;
                     break;
                 case R.id.account:
                     fragmentManager.beginTransaction()
-                            .hide(activeFragment)
                             .replace(R.id.frameLayout, accountFragment)
-                            .commit();
+                            .addToBackStack(null)
+                            .commitAllowingStateLoss();
                     activeFragment = accountFragment;
                     break;
             }
