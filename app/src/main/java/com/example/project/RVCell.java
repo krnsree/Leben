@@ -1,8 +1,28 @@
 package com.example.project;
 
+import java.util.ArrayList;
+
 public class RVCell {
 
     String name,location,time,phno,pic,locurl,address,homeurl,type,uid;
+
+    ArrayList<String> services,dept;
+
+    public ArrayList<String> getServices() {
+        return services;
+    }
+
+    public void setServices(ArrayList<String> services) {
+        this.services = services;
+    }
+
+    public ArrayList<String> getDept() {
+        return dept;
+    }
+
+    public void setDept(ArrayList<String> dept) {
+        this.dept = dept;
+    }
 
     public String getName() {
         return name;

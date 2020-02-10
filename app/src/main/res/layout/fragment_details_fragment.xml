@@ -297,6 +297,13 @@
                         android:textSize="20dp"
                         android:textStyle="bold" />
 
+                    <ProgressBar
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/serPro"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="15dp"/>
+
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/dept_rv"
                         android:layout_width="match_parent"
@@ -330,6 +337,13 @@
                         android:text="Services:"
                         android:textSize="20dp"
                         android:textStyle="bold" />
+
+                    <ProgressBar
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/deptPro"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="15dp"/>
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/services_rv"

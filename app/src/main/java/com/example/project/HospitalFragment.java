@@ -39,11 +39,11 @@ public class HospitalFragment extends Fragment {
     CollectionReference medcenters;
     FirebaseFirestore ref;
 
-    static ArrayList<RVCell> hospitalLists= new ArrayList<>();
+    static ArrayList<RVCell> hospitalLists = new ArrayList<>();
 
     HospitalAdapter hospitalAdapter;
 
-    private String TAG="TAG";
+    private String TAG = "TAG";
     private boolean isDataAvailable;
 
     public HospitalFragment() {
@@ -53,10 +53,10 @@ public class HospitalFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fragment_hospital, container, false);
-        ButterKnife.bind(this,view);
+        View view = inflater.inflate(R.layout.fragment_hospital, container, false);
+        ButterKnife.bind(this, view);
 
-        ChipNavigationBar bn=getActivity().findViewById(R.id.navBar);
+        ChipNavigationBar bn = getActivity().findViewById(R.id.navBar);
         bn.setVisibility(View.VISIBLE);
 
         /*AppCompatActivity activity = (AppCompatActivity) getActivity();
@@ -65,7 +65,7 @@ public class HospitalFragment extends Fragment {
         }*/
 
         hospitalList.setHasFixedSize(true);
-        hospitalAdapter=new HospitalAdapter(hospitalLists,getContext(),getActivity().getSupportFragmentManager());
+        hospitalAdapter = new HospitalAdapter(hospitalLists, getContext(), getActivity().getSupportFragmentManager());
         hospitalList.setAdapter(hospitalAdapter);
         getItems();
 
@@ -83,29 +83,27 @@ public class HospitalFragment extends Fragment {
 
         hrshimmer.startShimmerAnimation();
         if (hospitalLists != null && hospitalLists.size() > 0) {
-            Log.e(TAG, "onItems: 1" );
-           // hospitalAdapter.notifyDataSetChanged();
-            isDataAvailable=false;
+            Log.e(TAG, "onItems: 1");
+            // hospitalAdapter.notifyDataSetChanged();
+            isDataAvailable = false;
             hrshimmer.stopShimmerAnimation();
             hrshimmer.setVisibility(View.GONE);
             hospitalList.setAdapter(hospitalAdapter);
             return;
         }
 
-        Log.e(TAG, "onItems: 2" );
+        Log.e(TAG, "onItems: 2");
 
-        ref=FirebaseFirestore.getInstance();
+        ref = FirebaseFirestore.getInstance();
 
         ref.collection("MedicalCenters")
-                .whereEqualTo("type","hospital")
+                .whereEqualTo("type", "hospital")
                 .get()
                 .addOnCompleteListener(task -> {
 
-                    if(task.isSuccessful())
-                    {
+                    if (task.isSuccessful()) {
 
-                        for(QueryDocumentSnapshot documentSnapshot : task.getResult())
-                        {
+                        for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
                             if (documentSnapshot.exists()) {
                                 RVCell rvcell = new RVCell();
                                 rvcell.setName(String.valueOf(documentSnapshot.getData().get("name")));
@@ -114,6 +112,10 @@ public class HospitalFragment extends Fragment {
                                 rvcell.setTime(String.valueOf(documentSnapshot.getData().get("time")));
                                 rvcell.setPhno(String.valueOf(documentSnapshot.getData().get("phno")));
                                 rvcell.setHomeurl(String.valueOf(documentSnapshot.getData().get("homeurl")));
+                                if (documentSnapshot.getData().get("services") != null)
+                                    rvcell.setServices((ArrayList<String>) documentSnapshot.getData().get("services"));
+                                if (documentSnapshot.getData().get("dept") != null)
+                                    rvcell.setDept((ArrayList<String>) documentSnapshot.getData().get("dept"));
                                 hospitalLists.add(rvcell);
                             }
 
@@ -122,8 +124,7 @@ public class HospitalFragment extends Fragment {
                         hrshimmer.stopShimmerAnimation();
                         hrshimmer.setVisibility(View.GONE);
 
-                    }
-                    else
+                    } else
                         Toast.makeText(getContext(), "No hospitals available", Toast.LENGTH_SHORT).show();
                 });
     }
@@ -141,12 +142,10 @@ public class HospitalFragment extends Fragment {
         super.onStart();
 
 
-
         if (!isDataAvailable) {
             hrshimmer.stopShimmerAnimation();
             hrshimmer.setVisibility(View.GONE);
-        }
-        else {
+        } else {
             hrshimmer.setVisibility(View.VISIBLE);
             hrshimmer.startShimmerAnimation();
         }

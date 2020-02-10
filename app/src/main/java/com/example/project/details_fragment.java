@@ -3,10 +3,12 @@ package com.example.project;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -17,9 +19,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.gson.Gson;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
@@ -72,6 +77,17 @@ public class details_fragment extends Fragment {
     @BindView(R.id.comments_rv)
     RecyclerView commentss_rv;
 
+    @BindView(R.id.deptPro)
+    ProgressBar deptPro;
+
+    @BindView(R.id.serPro)
+    ProgressBar serPro;
+
+    FirebaseFirestore ref;
+
+    SR_Adapter sr_adapter;
+    SR_Adapter dr_adapter;
+
     String name, address, homeurl, contact, location, time;
 
     RVCell listData = new RVCell();
@@ -86,6 +102,41 @@ public class details_fragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    private void getServiceItems() {
+
+
+        if (services != null && services.size() > 0) {
+            services_rv.setAdapter(sr_adapter);
+            sr_adapter.notifyDataSetChanged();
+            deptPro.setVisibility(View.GONE);
+            return;
+        }
+
+        else
+        {
+            for (int i = 0; i < listData.getServices().size(); i++) {
+                ref.collection("Services")
+                        .whereEqualTo("uid", listData.getServices().get(i))
+                        .get()
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+                                    services.add(String.valueOf(documentSnapshot.get("name")));
+                                    Log.e("TAG", "getItems:"+documentSnapshot.get("name"));
+                                }
+                            }
+                            sr_adapter.notifyDataSetChanged();
+                        });
+            }
+        }
+
+
+
+        serPro.setVisibility(View.GONE);
+        deptPro.setVisibility(View.GONE);
+
     }
 
     @Override
@@ -128,9 +179,54 @@ public class details_fragment extends Fragment {
             Gson gson = new Gson();
             listData = gson.fromJson(list, RVCell.class);
         }
+
+        ref = FirebaseFirestore.getInstance();
+
+
+
+        services_rv.setHasFixedSize(true);
+        RecyclerView.LayoutManager slayoutManager = new GridLayoutManager(getContext(), 2);
+        services_rv.setLayoutManager(slayoutManager);
+        sr_adapter = new SR_Adapter(getContext(), services);
+        services_rv.setAdapter(sr_adapter);
+
+        dept_rv.setHasFixedSize(true);
+        RecyclerView.LayoutManager dlayoutManager = new GridLayoutManager(getContext(), 2);
+        dept_rv.setLayoutManager(dlayoutManager);
+        dr_adapter = new SR_Adapter(getContext(), departments);
+        dept_rv.setAdapter(dr_adapter);
+
+        getServiceItems();
+        getDeptItems();
         setItems();
 
         return view;
+    }
+
+    private void getDeptItems() {
+        ref=FirebaseFirestore.getInstance();
+
+        for (int i = 0; i < listData.getServices().size(); i++) {
+            ref.collection("Dept")
+                    .whereEqualTo("uid", listData.getDept().get(i))
+                    .get()
+                    .addOnCompleteListener(task -> {
+
+                        Log.e("TAG", "getDeptItems: "+task.isSuccessful() );
+                        Log.e("TAG", "getDeptItems: "+listData.getServices().size() );
+
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+                                services.add(String.valueOf(documentSnapshot.get("name")));
+                                Log.e("TAG", "getItems:"+documentSnapshot.get("name"));
+                            }
+                        }
+
+                        dr_adapter.notifyDataSetChanged();
+                    });
+        }
+
+
     }
 
     @Override
@@ -150,7 +246,6 @@ public class details_fragment extends Fragment {
         hospitalLocation.setText(listData.getLocation());
         hospitalTime.setText(listData.getTime());
         hospitalPhnonum.setText(listData.getPhno());
-
     }
 
     @Override
