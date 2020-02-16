@@ -206,25 +206,28 @@ public class details_fragment extends Fragment {
     private void getDeptItems() {
         ref=FirebaseFirestore.getInstance();
 
-        for (int i = 0; i < listData.getServices().size(); i++) {
+        for (int i = 0; i < listData.getDept().size(); i++) {
+            Log.e("tag", "getDeptItems: "+ listData.getDept().get(i));
             ref.collection("Dept")
                     .whereEqualTo("uid", listData.getDept().get(i))
                     .get()
                     .addOnCompleteListener(task -> {
 
                         Log.e("TAG", "getDeptItems: "+task.isSuccessful() );
-                        Log.e("TAG", "getDeptItems: "+listData.getServices().size() );
+                        Log.e("TAG", "getDeptItems: "+task.getResult().size() );
 
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
-                                services.add(String.valueOf(documentSnapshot.get("name")));
-                                Log.e("TAG", "getItems:"+documentSnapshot.get("name"));
+                                departments.add(String.valueOf(documentSnapshot.getData().get("name")));
+                                Log.e("TAG", "getItems:"+documentSnapshot.getData().get("name"));
                             }
                         }
 
-                        dr_adapter.notifyDataSetChanged();
+
                     });
         }
+        dr_adapter.notifyDataSetChanged();
+        serPro.setVisibility(View.GONE);
 
 
     }
