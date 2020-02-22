@@ -4,9 +4,25 @@ import java.util.ArrayList;
 
 public class RVCell {
 
-    String name,location,time,phno,pic,locurl,address,homeurl,type,uid;
+    String name, location, time, phno, pic, locurl, address, homeurl, type, uid, latitude, longitude;
 
-    ArrayList<String> services,dept;
+    ArrayList<String> services, dept;
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
 
     public ArrayList<String> getServices() {
         return services;

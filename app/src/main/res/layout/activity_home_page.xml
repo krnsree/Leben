@@ -1,26 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:id="@+id/frameLayout"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:orientation="vertical"
-tools:context=".MainActivity"
-android:background="@drawable/back21">
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/frameLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/back"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
 
 
-    <com.ismaeldivita.chipnavigation.ChipNavigationBar
-        android:id="@+id/navBar"
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginTop="100dp"
+    android:id="@+id/home">
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimaryDark"
-        android:layout_gravity="bottom"
-        app:cnb_addBottomInset="false"
-        app:cnb_addLeftInset="false"
-        app:cnb_addRightInset="false"
-        app:cnb_addTopInset="false"
-        app:cnb_menuResource="@menu/main_menu"
-        app:cnb_minExpandedWidth="150dp"
-        app:cnb_orientationMode="horizontal" />
+        android:weightSum="1"
+        android:orientation="horizontal"
+        android:layout_marginTop="25dp">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/hospitalCard"
+            android:layout_width="125dp"
+            android:layout_height="175dp"
+            app:cardCornerRadius="20dp"
+            android:layout_weight=".5"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"/>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/clinicCard"
+            android:layout_width="125dp"
+            android:layout_height="175dp"
+            app:cardCornerRadius="20dp"
+            android:layout_weight=".5"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="1"
+        android:orientation="horizontal"
+        android:layout_marginTop="25dp">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/pharmacyCard"
+            android:layout_width="150dp"
+            android:layout_height="175dp"
+            app:cardCornerRadius="20dp"
+            android:layout_weight=".5"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"/>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/laboratoryCard"
+            android:layout_width="150dp"
+            android:layout_height="175dp"
+            app:cardCornerRadius="20dp"
+            android:layout_weight=".5"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="130dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="25dp">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/accountCard"
+            android:layout_width="150dp"
+            android:layout_height="175dp"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            app:cardCornerRadius="20dp" />
+
+    </LinearLayout>
+
+
+</LinearLayout>
+
 </FrameLayout>

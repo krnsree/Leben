@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -35,7 +36,7 @@ public class ClinicFragment extends Fragment {
 
     static ArrayList<RVCell> clinicLists= new ArrayList<>();
 
-    ClicnicAdapter clinicAdapter;
+    MCAdapter clinicAdapter;
 
     private String TAG="TAG";
     private boolean isDataAvailable;
@@ -49,6 +50,10 @@ public class ClinicFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_clinic, container, false);
         ButterKnife.bind(this,view);
+
+        getActivity().findViewById(R.id.home).setVisibility(View.GONE);
+        getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         return view;
     }
 
@@ -57,7 +62,7 @@ public class ClinicFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         clinicList.setHasFixedSize(true);
-        clinicAdapter=new ClicnicAdapter(clinicLists,getContext());
+        clinicAdapter=new MCAdapter(clinicLists,getContext(),getActivity().getSupportFragmentManager(),getActivity());
         clinicList.setAdapter(clinicAdapter);
 
         getItems();
@@ -126,5 +131,11 @@ public class ClinicFragment extends Fragment {
             crshimmer.startShimmerAnimation();
         }
 
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        getActivity().findViewById(R.id.home).setVisibility(View.VISIBLE);
     }
 }

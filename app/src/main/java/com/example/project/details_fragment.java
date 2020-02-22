@@ -1,7 +1,6 @@
 package com.example.project;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -26,7 +25,6 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.gson.Gson;
-import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
 import java.util.ArrayList;
 
@@ -34,6 +32,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static android.view.WindowManager.LayoutParams;
+import static androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE;
 
 
 public class details_fragment extends Fragment {
@@ -83,6 +82,15 @@ public class details_fragment extends Fragment {
     @BindView(R.id.serPro)
     ProgressBar serPro;
 
+    @BindView(R.id.noComments)
+    TextView noComments;
+
+    @BindView(R.id.noServices)
+    TextView noServices;
+
+    @BindView(R.id.noDepartments)
+    TextView noDepartments;
+
     FirebaseFirestore ref;
 
     SR_Adapter sr_adapter;
@@ -104,40 +112,6 @@ public class details_fragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
-    private void getServiceItems() {
-
-
-        if (services != null && services.size() > 0) {
-            services_rv.setAdapter(sr_adapter);
-            sr_adapter.notifyDataSetChanged();
-            deptPro.setVisibility(View.GONE);
-            return;
-        }
-
-        else
-        {
-            for (int i = 0; i < listData.getServices().size(); i++) {
-                ref.collection("Services")
-                        .whereEqualTo("uid", listData.getServices().get(i))
-                        .get()
-                        .addOnCompleteListener(task -> {
-                            if (task.isSuccessful()) {
-                                for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
-                                    services.add(String.valueOf(documentSnapshot.get("name")));
-                                    Log.e("TAG", "getItems:"+documentSnapshot.get("name"));
-                                }
-                            }
-                            sr_adapter.notifyDataSetChanged();
-                        });
-            }
-        }
-
-
-
-        serPro.setVisibility(View.GONE);
-        deptPro.setVisibility(View.GONE);
-
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -147,6 +121,8 @@ public class details_fragment extends Fragment {
 
         ButterKnife.bind(this, view);
 
+        noServices.setVisibility(View.GONE);
+        noDepartments.setVisibility(View.GONE);
         getActivity().getWindow().setFlags(LayoutParams.FLAG_LAYOUT_NO_LIMITS,
                 LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 
@@ -164,7 +140,7 @@ public class details_fragment extends Fragment {
             }
         }
 
-        view.setFocusableInTouchMode(true);
+        /*view.setFocusableInTouchMode(true);
         view.requestFocus();
         view.setOnKeyListener((v, keyCode, event) -> {
             if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -172,7 +148,7 @@ public class details_fragment extends Fragment {
                 return true;
             }
             return false;
-        });
+        });*/
 
         if (getArguments() != null) {
             String list = getArguments().getString("MD_Details");
@@ -181,7 +157,6 @@ public class details_fragment extends Fragment {
         }
 
         ref = FirebaseFirestore.getInstance();
-
 
 
         services_rv.setHasFixedSize(true);
@@ -204,40 +179,103 @@ public class details_fragment extends Fragment {
     }
 
     private void getDeptItems() {
-        ref=FirebaseFirestore.getInstance();
+        ref = FirebaseFirestore.getInstance();
 
-        for (int i = 0; i < listData.getDept().size(); i++) {
-            Log.e("tag", "getDeptItems: "+ listData.getDept().get(i));
-            ref.collection("Dept")
-                    .whereEqualTo("uid", listData.getDept().get(i))
-                    .get()
-                    .addOnCompleteListener(task -> {
-
-                        Log.e("TAG", "getDeptItems: "+task.isSuccessful() );
-                        Log.e("TAG", "getDeptItems: "+task.getResult().size() );
-
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
-                                departments.add(String.valueOf(documentSnapshot.getData().get("name")));
-                                Log.e("TAG", "getItems:"+documentSnapshot.getData().get("name"));
-                            }
-                        }
-
-
-                    });
+        if (departments != null && departments.size() > 0) {
+            dept_rv.setAdapter(dr_adapter);
+            dr_adapter.notifyDataSetChanged();
+            serPro.setVisibility(View.GONE);
+            return;
         }
-        dr_adapter.notifyDataSetChanged();
+
+        if (listData.getDept() != null) {
+
+            for (int i = 0; i < listData.getDept().size(); i++) {
+                Log.e("tag", "getDeptItems: " + listData.getDept().get(i));
+                ref.collection("Dept")
+                        .whereEqualTo("uid", listData.getDept().get(i))
+                        .get()
+                        .addOnCompleteListener(task -> {
+
+                            Log.e("TAG", "getDeptItems: " + task.isSuccessful());
+                            Log.e("TAG", "getDeptItems: " + task.getResult().size());
+
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+                                    departments.add(String.valueOf(documentSnapshot.getData().get("name")));
+                                    Log.e("TAG", "getItems:" + documentSnapshot.getData().get("name"));
+                                }
+                            }
+                            dr_adapter.notifyDataSetChanged();
+
+                        });
+            }
+            dr_adapter.notifyDataSetChanged();
+
+        } else {
+            noDepartments.setVisibility(View.VISIBLE);
+        }
         serPro.setVisibility(View.GONE);
 
 
+    }
+
+    private void getServiceItems() {
+
+
+        if (services != null && services.size() > 0) {
+            services_rv.setAdapter(sr_adapter);
+            sr_adapter.notifyDataSetChanged();
+            deptPro.setVisibility(View.GONE);
+            return;
+        } else {
+            if (listData.getServices() != null) {
+                for (int i = 0; i < listData.getServices().size(); i++) {
+                    ref.collection("Services")
+                            .whereEqualTo("uid", listData.getServices().get(i))
+                            .get()
+                            .addOnCompleteListener(task -> {
+                                if (task.isSuccessful()) {
+                                    for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+                                        services.add(String.valueOf(documentSnapshot.get("name")));
+                                    }
+                                }
+                                sr_adapter.notifyDataSetChanged();
+                            });
+                }
+            }
+            else{
+                noServices.setVisibility(View.VISIBLE);
+            }
+        }
+
+
+        serPro.setVisibility(View.GONE);
+        deptPro.setVisibility(View.GONE);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        ChipNavigationBar bottomNavigationView = getActivity().findViewById(R.id.navBar);
-        bottomNavigationView.setVisibility(View.GONE);
+
+        view.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+
+                if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+                    if (getFragmentManager().getBackStackEntryCount() > 0) {
+                        getFragmentManager().popBackStackImmediate("MCLists", POP_BACK_STACK_INCLUSIVE);
+                    }
+                }
+
+                return false;
+            }
+        });
+
+
+        /*ChipNavigationBar bottomNavigationView = getActivity().findViewById(R.id.navBar);
+        bottomNavigationView.setVisibility(View.GONE);*/
 
     }
 
@@ -262,4 +300,9 @@ public class details_fragment extends Fragment {
         super.onDetach();
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        getActivity().findViewById(R.id.home).setVisibility(View.GONE);
+    }
 }

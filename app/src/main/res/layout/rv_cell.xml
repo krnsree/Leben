@@ -51,7 +51,7 @@
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/fenix"
                 android:text="Simple Title Text "
-                android:textColor="@color/colorPrimary"
+                android:textColor="#000000"
                 android:textStyle="bold"
                 android:textSize="20sp"/>
 
@@ -66,7 +66,7 @@
                 android:lineSpacingExtra="8dp"
                 android:fontFamily="@font/fenix"
                 android:text="Location:"
-                android:textColor="@color/white" />
+                android:textColor="#000000" />
 
             <TextView
                 android:id="@+id/time"
@@ -78,7 +78,7 @@
                 android:fontFamily="@font/fenix"
                 android:lineSpacingExtra="8dp"
                 android:text="Time:"
-                android:textColor="@color/white" />
+                android:textColor="#000000" />
 
             <TextView
                 android:id="@+id/phno"
@@ -89,7 +89,7 @@
                 android:layout_marginRight="50dp"
                 android:fontFamily="@font/fenix"
                 android:text="Phone:"
-                android:textColor="@color/white" />
+                android:textColor="#000000" />
             <Button
                 android:id="@+id/button"
                 android:layout_width="match_parent"

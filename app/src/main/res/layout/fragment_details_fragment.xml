@@ -312,6 +312,18 @@
                         android:layout_marginTop="10dp"
                         android:layout_marginRight="20dp" />
 
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/noDepartments"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="10dp"
+                        android:fontFamily="@font/arsenal"
+                        android:text="No Departments Available"
+                        android:textSize="20dp"
+                        android:visibility="gone"/>
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -353,6 +365,18 @@
                         android:layout_marginTop="10dp"
                         android:layout_marginRight="20dp" />
 
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/noServices"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="10dp"
+                        android:fontFamily="@font/arsenal"
+                        android:text="No Services Available"
+                        android:textSize="20dp"
+                        android:visibility="gone"/>
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -386,6 +410,19 @@
                         android:layout_marginLeft="20dp"
                         android:layout_marginTop="10dp"
                         android:layout_marginRight="20dp" />
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/noComments"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="10dp"
+                        android:fontFamily="@font/arsenal"
+                        android:text="No Comments Available"
+                        android:textSize="20dp"/>
+
 
                 </LinearLayout>
 

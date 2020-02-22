@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -17,7 +18,6 @@ import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
 import java.util.ArrayList;
 
@@ -41,7 +41,7 @@ public class HospitalFragment extends Fragment {
 
     static ArrayList<RVCell> hospitalLists = new ArrayList<>();
 
-    HospitalAdapter hospitalAdapter;
+    MCAdapter hospitalAdapter;
 
     private String TAG = "TAG";
     private boolean isDataAvailable;
@@ -55,9 +55,11 @@ public class HospitalFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_hospital, container, false);
         ButterKnife.bind(this, view);
+        getActivity().findViewById(R.id.home).setVisibility(View.GONE);
 
-        ChipNavigationBar bn = getActivity().findViewById(R.id.navBar);
-        bn.setVisibility(View.VISIBLE);
+
+        getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 
         /*AppCompatActivity activity = (AppCompatActivity) getActivity();
         if (activity != null) {
@@ -65,9 +67,10 @@ public class HospitalFragment extends Fragment {
         }*/
 
         hospitalList.setHasFixedSize(true);
-        hospitalAdapter = new HospitalAdapter(hospitalLists, getContext(), getActivity().getSupportFragmentManager());
+        hospitalAdapter = new MCAdapter(hospitalLists, getContext(), getActivity().getSupportFragmentManager(),getActivity());
         hospitalList.setAdapter(hospitalAdapter);
         getItems();
+
 
         return view;
     }
@@ -117,6 +120,8 @@ public class HospitalFragment extends Fragment {
                                 if (documentSnapshot.getData().get("dept") != null)
                                     rvcell.setDept((ArrayList<String>) documentSnapshot.getData().get("dept"));
                                 hospitalLists.add(rvcell);
+                                rvcell.setLatitude(String.valueOf(documentSnapshot.getData().get("lat")));
+                                rvcell.setLongitude(String.valueOf(documentSnapshot.getData().get("lon")));
                             }
 
                         }
@@ -141,6 +146,7 @@ public class HospitalFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
+        getActivity().findViewById(R.id.home).setVisibility(View.GONE);
 
         if (!isDataAvailable) {
             hrshimmer.stopShimmerAnimation();
@@ -153,5 +159,28 @@ public class HospitalFragment extends Fragment {
         Log.e(TAG, "onStart: 1");
 
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        getActivity().findViewById(R.id.home).setVisibility(View.GONE);
+
+        if (!isDataAvailable) {
+            hrshimmer.stopShimmerAnimation();
+            hrshimmer.setVisibility(View.GONE);
+        } else {
+            hrshimmer.setVisibility(View.VISIBLE);
+            hrshimmer.startShimmerAnimation();
+        }
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        getActivity().findViewById(R.id.home).setVisibility(View.VISIBLE);
+    }
+
 
 }
