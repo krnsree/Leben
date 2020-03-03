@@ -5,7 +5,7 @@
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/back"
+    android:background="@drawable/background1"
     android:orientation="vertical"
     tools:context=".MainActivity">
 
@@ -31,7 +31,8 @@
             app:cardCornerRadius="20dp"
             android:layout_weight=".5"
             android:layout_marginEnd="20dp"
-            android:layout_marginStart="20dp"/>
+            android:layout_marginStart="20dp"
+            android:backgroundTint="@color/colorPrimaryDark"/>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/clinicCard"
@@ -40,7 +41,8 @@
             app:cardCornerRadius="20dp"
             android:layout_weight=".5"
             android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"/>
+            android:layout_marginEnd="20dp"
+            android:backgroundTint="@color/colorPrimaryDark"/>
 
     </LinearLayout>
 
@@ -49,7 +51,8 @@
         android:layout_height="wrap_content"
         android:weightSum="1"
         android:orientation="horizontal"
-        android:layout_marginTop="25dp">
+        android:layout_marginTop="25dp"
+        android:id="@+id/convessel">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/pharmacyCard"
@@ -58,7 +61,8 @@
             app:cardCornerRadius="20dp"
             android:layout_weight=".5"
             android:layout_marginEnd="20dp"
-            android:layout_marginStart="20dp"/>
+            android:layout_marginStart="20dp"
+            android:backgroundTint="@color/colorPrimaryDark"/>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/laboratoryCard"
@@ -67,26 +71,30 @@
             app:cardCornerRadius="20dp"
             android:layout_weight=".5"
             android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"/>
+            android:layout_marginEnd="20dp"
+            android:backgroundTint="@color/colorPrimaryDark"/>
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="130dp"
-        android:layout_marginTop="25dp"
-        android:layout_marginBottom="25dp">
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="25dp">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/accountCard"
-            android:layout_width="150dp"
-            android:layout_height="175dp"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="center"
-            app:cardCornerRadius="20dp" />
+    <androidx.cardview.widget.CardView
+        android:id="@+id/accountCard"
+        android:layout_width="150dp"
+        android:layout_height="175dp"
+        app:cardCornerRadius="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginBottom="10dp"
+        android:backgroundTint="@color/colorPrimaryDark"/>
 
-    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </LinearLayout>

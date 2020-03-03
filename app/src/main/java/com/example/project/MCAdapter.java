@@ -74,7 +74,8 @@ public class MCAdapter extends RecyclerView.Adapter<MCAdapter.ViewHolder> {
             @Override
             public void onClick(View v) {
                 activity.findViewById(R.id.home).setVisibility(View.GONE);
-                Uri locuri=Uri.parse("google.navigation:q=" + MClists.get(position).getLatitude() + "," +MClists.get(position).getLongitude());
+                //Uri locuri=Uri.parse("google.navigation:q=" + MClists.get(position).getLatitude() + "," +MClists.get(position).getLongitude());
+                Uri locuri=Uri.parse("https://www.google.com/maps/dir/?api=1&destination=Jaya+Hospital");
                 Intent mapIntent=new Intent(Intent.ACTION_VIEW, locuri);
                 mapIntent.setPackage("com.google.android.apps.maps");
                 try{

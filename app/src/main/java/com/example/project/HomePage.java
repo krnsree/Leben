@@ -26,6 +26,9 @@ public class HomePage extends AppCompatActivity {
     @BindView(R.id.clinicCard)
     CardView ClinicCard;
 
+    @BindView(R.id.accountCard)
+    CardView accountCard;
+
     @BindView(R.id.home)
     LinearLayout home;
 
@@ -56,34 +59,13 @@ public class HomePage extends AppCompatActivity {
                 .addToBackStack("ClinicList")
                 .commitAllowingStateLoss());
 
+        accountCard.setOnClickListener(v -> getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.frameLayout, accountFragment)
+                .addToBackStack("AccountPage")
+                .commitAllowingStateLoss());
 
-        /*navBar.setOnItemSelectedListener(i -> {
-            switch (i) {
-                case R.id.hospital:
-                    getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.frameLayout, homeFragment)
-                            .addToBackStack(null)
-                            .commitAllowingStateLoss();
-                    activeFragment = homeFragment;
-                    break;
-                case R.id.clinic:
-                    fragmentManager.beginTransaction()
-                            .replace(R.id.frameLayout, clinincFragment)
-                            .addToBackStack(null)
-                            .commitAllowingStateLoss();
-                    activeFragment = clinincFragment;
-                    break;
-                case R.id.account:
-                    fragmentManager.beginTransaction()
-                            .replace(R.id.frameLayout, accountFragment)
-                            .addToBackStack(null)
-                            .commitAllowingStateLoss();
-                    activeFragment = accountFragment;
-                    break;
-            }
-        });
-*/
+
     }
 
     @Override

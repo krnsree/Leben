@@ -126,6 +126,7 @@ public class Login_Acticvity extends AppCompatActivity {
         if(account!=null)
         {
             String name=account.getDisplayName();
+
             Toast.makeText(this, name, Toast.LENGTH_SHORT).show();
         }
 
