@@ -5,7 +5,26 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".HospitalFragment">
+    tools:context="Fragments.HospitalFragment">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@null"
+        app:elevation="0dp">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/hostoolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="25dp"
+            android:background="@null"
+            app:title="Leben"
+            app:titleTextAppearance="?attr/textAppearanceHeadline1"
+            app:titleTextColor="#000000" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
 
     <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/crshimmer"
@@ -37,7 +56,7 @@
         android:layout_height="wrap_content"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:id="@+id/clinicList"
-        android:layout_marginBottom="55dp" />
+        android:layout_marginBottom="10dp" />
 
 
 </LinearLayout>

@@ -1,4 +1,4 @@
-package com.example.project;
+package Models;
 
 public class UserCell {
 

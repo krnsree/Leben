@@ -1,4 +1,4 @@
-package com.example.project;
+package Fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.project.R;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -21,6 +22,8 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 
+import Adapter.MCAdapter;
+import Models.RVCell;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -44,7 +47,8 @@ public class HospitalFragment extends Fragment {
     MCAdapter hospitalAdapter;
 
     private String TAG = "TAG";
-    private boolean isDataAvailable;
+
+    static boolean isDataAvailable;
 
     public HospitalFragment() {
         // Required empty public constructor
@@ -61,6 +65,7 @@ public class HospitalFragment extends Fragment {
         getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
                 WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 
+        isDataAvailable=false;
         /*AppCompatActivity activity = (AppCompatActivity) getActivity();
         if (activity != null) {
             activity.setSupportActionBar(toolbar);
@@ -88,7 +93,7 @@ public class HospitalFragment extends Fragment {
         if (hospitalLists != null && hospitalLists.size() > 0) {
             Log.e(TAG, "onItems: 1");
             // hospitalAdapter.notifyDataSetChanged();
-            isDataAvailable = false;
+            isDataAvailable = true;
             hrshimmer.stopShimmerAnimation();
             hrshimmer.setVisibility(View.GONE);
             hospitalList.setAdapter(hospitalAdapter);
@@ -138,8 +143,6 @@ public class HospitalFragment extends Fragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        isDataAvailable = true;
-
     }
 
     @Override
@@ -148,7 +151,7 @@ public class HospitalFragment extends Fragment {
 
         getActivity().findViewById(R.id.home).setVisibility(View.GONE);
 
-        if (!isDataAvailable) {
+        if (isDataAvailable) {
             hrshimmer.stopShimmerAnimation();
             hrshimmer.setVisibility(View.GONE);
         } else {
@@ -166,13 +169,14 @@ public class HospitalFragment extends Fragment {
 
         getActivity().findViewById(R.id.home).setVisibility(View.GONE);
 
-        if (!isDataAvailable) {
+        if (isDataAvailable) {
             hrshimmer.stopShimmerAnimation();
             hrshimmer.setVisibility(View.GONE);
         } else {
             hrshimmer.setVisibility(View.VISIBLE);
             hrshimmer.startShimmerAnimation();
         }
+        getItems();
 
     }
 

@@ -1,4 +1,4 @@
-package com.example.project;
+package Fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -21,6 +21,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.project.R;
+import Models.RVCell;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -28,6 +30,7 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
+import Adapter.SR_Adapter;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 

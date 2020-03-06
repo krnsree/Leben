@@ -1,4 +1,4 @@
-package com.example.project;
+package Fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -13,12 +13,15 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.project.R;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 
+import Adapter.MCAdapter;
+import Models.RVCell;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -130,6 +133,27 @@ public class ClinicFragment extends Fragment {
             crshimmer.setVisibility(View.VISIBLE);
             crshimmer.startShimmerAnimation();
         }
+
+        getActivity().findViewById(R.id.home).setVisibility(View.GONE);
+        getItems();
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (!isDataAvailable) {
+            crshimmer.stopShimmerAnimation();
+            crshimmer.setVisibility(View.GONE);
+        }
+        else {
+            crshimmer.setVisibility(View.VISIBLE);
+            crshimmer.startShimmerAnimation();
+        }
+
+        getActivity().findViewById(R.id.home).setVisibility(View.GONE);
+        getItems();
 
     }
 

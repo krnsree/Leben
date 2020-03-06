@@ -1,9 +1,8 @@
 package com.example.project;
 
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,14 +10,13 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import Fragments.AccountFragment;
+import Fragments.ClinicFragment;
+import Fragments.HospitalFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class HomePage extends AppCompatActivity {
-
-    /*@BindView(R.id.navBar)
-    ChipNavigationBar navBar;
-*/
 
     @BindView(R.id.hospitalCard)
     CardView HospitalCard;
@@ -32,10 +30,11 @@ public class HomePage extends AppCompatActivity {
     @BindView(R.id.home)
     LinearLayout home;
 
+
     FragmentManager fragmentManager = getSupportFragmentManager();
     Fragment homeFragment = new HospitalFragment();
     Fragment clinincFragment = new ClinicFragment();
-    Fragment accountFragment = new AccountFragment();
+    AccountFragment acc=new AccountFragment();
     Fragment activeFragment = homeFragment;
 
 
@@ -46,6 +45,9 @@ public class HomePage extends AppCompatActivity {
         ButterKnife.bind(this);
 
         home.setVisibility(View.VISIBLE);
+
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 
         HospitalCard.setOnClickListener(v -> getSupportFragmentManager()
                 .beginTransaction()
@@ -59,25 +61,23 @@ public class HomePage extends AppCompatActivity {
                 .addToBackStack("ClinicList")
                 .commitAllowingStateLoss());
 
-        accountCard.setOnClickListener(v -> getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.frameLayout, accountFragment)
-                .addToBackStack("AccountPage")
-                .commitAllowingStateLoss());
+        accountCard.setOnClickListener(v ->
+                acc.show(getSupportFragmentManager(),acc.getTag())
+                );
+
+    }
 
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        home.setVisibility(View.VISIBLE);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         home.setVisibility(View.GONE);
-    }
-
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.search, menu);
-        return true;
     }
 
 }
