@@ -1,15 +1,19 @@
 package Fragments;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,15 +26,22 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.project.R;
-import Models.RVCell;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
+import Adapter.CommentAdapter;
 import Adapter.SR_Adapter;
+import Models.CommentCell;
+import Models.RVCell;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -94,10 +105,20 @@ public class details_fragment extends Fragment {
     @BindView(R.id.noDepartments)
     TextView noDepartments;
 
+    @BindView(R.id.locationButton)
+    Button locationButton;
+
+    @BindView(R.id.commentButton)
+    Button commentButton;
+
+    CommentDialoge commentDialoge;
+
     FirebaseFirestore ref;
 
     SR_Adapter sr_adapter;
     SR_Adapter dr_adapter;
+
+    ArrayList<CommentCell> list = new ArrayList<>();
 
     String name, address, homeurl, contact, location, time;
 
@@ -105,6 +126,7 @@ public class details_fragment extends Fragment {
     static ArrayList<String> services = new ArrayList<>();
     static ArrayList<String> departments = new ArrayList<>();
 
+    CommentAdapter adapter;
 
     public details_fragment() {
         // Required empty public constructor
@@ -143,15 +165,6 @@ public class details_fragment extends Fragment {
             }
         }
 
-        /*view.setFocusableInTouchMode(true);
-        view.requestFocus();
-        view.setOnKeyListener((v, keyCode, event) -> {
-            if (keyCode == KeyEvent.KEYCODE_BACK) {
-                startActivity(new Intent(getActivity(), HomePage.class));
-                return true;
-            }
-            return false;
-        });*/
 
         if (getArguments() != null) {
             String list = getArguments().getString("MD_Details");
@@ -160,6 +173,17 @@ public class details_fragment extends Fragment {
         }
 
         ref = FirebaseFirestore.getInstance();
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getContext(), 1);
+        commentss_rv.setHasFixedSize(true);
+        commentss_rv.setLayoutManager(layoutManager);
+        adapter = new CommentAdapter(getContext(), list);
+        commentss_rv.setAdapter(adapter);
+
+        commentButton.setOnClickListener(v -> {
+            commentDialoge = CommentDialoge.newInstance(listData.getUid());
+            commentDialoge.show(getActivity().getSupportFragmentManager(), "comment");
+            getComments();
+        });
 
 
         services_rv.setHasFixedSize(true);
@@ -174,11 +198,66 @@ public class details_fragment extends Fragment {
         dr_adapter = new SR_Adapter(getContext(), departments);
         dept_rv.setAdapter(dr_adapter);
 
+        locationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String query = null;
+                try {
+                    query = URLEncoder.encode(listData.getName(), "utf-8");
+                    Log.e("TAG", "onMaps: " + query);
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+                Uri locuri = Uri.parse("https://www.google.com/maps/dir/?api=1&destination=" + query);
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, locuri);
+                mapIntent.setPackage("com.google.android.apps.maps");
+                try {
+                    if (mapIntent.resolveActivity(getContext().getPackageManager()) != null) {
+                        getContext().startActivity(mapIntent);
+                    }
+                } catch (NullPointerException e) {
+                    Log.e("TAG", "onClick: NullPointerException: Couldn't open map." + e.getMessage());
+                    Toast.makeText(getContext(), "Couldn't open map", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
         getServiceItems();
         getDeptItems();
+        getComments();
         setItems();
 
         return view;
+    }
+
+    private void getComments() {
+
+        ref.collection("Comments").whereEqualTo("uid", listData.getUid()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    if (!task.getResult().isEmpty()) {
+                        for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+                            CommentCell cell = new CommentCell();
+                            cell.setComment((String) documentSnapshot.getData().get("Comment"));
+                            cell.setName((String) documentSnapshot.getData().get("Name"));
+                            cell.setRating((String) documentSnapshot.getData().get("Rating"));
+                            cell.setImage((String) documentSnapshot.getData().get("Image"));
+                            list.add(cell);
+                        }
+                        adapter.notifyDataSetChanged();
+                        noComments.setVisibility(View.GONE);
+                    } else {
+                        noComments.setVisibility(View.VISIBLE);
+                    }
+
+                } else {
+                    noComments.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
     }
 
     private void getDeptItems() {
@@ -246,8 +325,7 @@ public class details_fragment extends Fragment {
                                 sr_adapter.notifyDataSetChanged();
                             });
                 }
-            }
-            else{
+            } else {
                 noServices.setVisibility(View.VISIBLE);
             }
         }

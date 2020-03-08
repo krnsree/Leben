@@ -118,8 +118,9 @@ public class AccountFragment extends BottomSheetDialogFragment {
         signOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 SaveSharedPreference.setLoggedIn(getActivity().getApplicationContext(), false);
+                SaveSharedPreference.setAccount(getActivity().getApplicationContext(), null);
+                SaveSharedPreference.setAccountImage(getActivity().getApplicationContext(), null);
                 signout();
             }
         });
@@ -194,6 +195,8 @@ public class AccountFragment extends BottomSheetDialogFragment {
         if(account!=null)
         {
             SaveSharedPreference.setLoggedIn(getActivity().getApplicationContext(), true);
+            SaveSharedPreference.setAccount(getActivity().getApplicationContext(),account);
+            SaveSharedPreference.setAccountImage(getActivity().getApplicationContext(),account);
             setDetails(account);
         }
         else

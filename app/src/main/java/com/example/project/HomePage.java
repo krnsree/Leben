@@ -65,6 +65,7 @@ public class HomePage extends AppCompatActivity {
                 acc.show(getSupportFragmentManager(),acc.getTag())
                 );
 
+
     }
 
 
