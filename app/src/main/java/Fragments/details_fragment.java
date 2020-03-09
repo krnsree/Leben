@@ -182,9 +182,8 @@ public class details_fragment extends Fragment {
         commentButton.setOnClickListener(v -> {
             commentDialoge = CommentDialoge.newInstance(listData.getUid());
             commentDialoge.show(getActivity().getSupportFragmentManager(), "comment");
-            getComments();
+            adapter.notifyDataSetChanged();
         });
-
 
         services_rv.setHasFixedSize(true);
         RecyclerView.LayoutManager slayoutManager = new GridLayoutManager(getContext(), 2);
@@ -233,7 +232,7 @@ public class details_fragment extends Fragment {
 
     private void getComments() {
 
-        ref.collection("Comments").whereEqualTo("uid", listData.getUid()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        ref.collection("Comment").whereEqualTo("uid", listData.getUid()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {

@@ -12,7 +12,6 @@ import androidx.fragment.app.FragmentManager;
 
 import Fragments.AccountFragment;
 import Fragments.ClinicFragment;
-import Fragments.HospitalFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 

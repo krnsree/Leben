@@ -1,4 +1,4 @@
-package Fragments;
+package com.example.project;
 
 import android.content.Context;
 import android.content.Intent;
@@ -16,26 +16,21 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.project.R;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.gms.common.api.Status;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
-import com.google.android.libraries.places.api.model.TypeFilter;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.AutocompleteActivity;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
-import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
 
 import Adapter.MCAdapter;
 import Models.RVCell;
@@ -74,6 +69,8 @@ public class HospitalFragment extends Fragment {
 
     static boolean isDataAvailable;
 
+    String apikey;
+
     public HospitalFragment() {
         // Required empty public constructor
     }
@@ -90,51 +87,38 @@ public class HospitalFragment extends Fragment {
         getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
                 WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 
-        Places.initialize(getActivity().getApplicationContext(), "AIzaSyCS16Rtbz-exYMzsfqpTFvCm3llyVlaKQo", Locale.US);
-
         isDataAvailable = false;
-        /*AppCompatActivity activity = (AppCompatActivity) getActivity();
-        if (activity != null) {
-            activity.setSupportActionBar(toolbar);
-        }*/
+
+        apikey=getString(R.string.API_KEY);
 
         hospitalList.setHasFixedSize(true);
         hospitalAdapter = new MCAdapter(hospitalLists, getContext(), getActivity().getSupportFragmentManager(), getActivity());
         hospitalList.setAdapter(hospitalAdapter);
         getItems();
 
+
         if (!Places.isInitialized()) {
-            Places.initialize(getContext().getApplicationContext(), "AIzaSyAufIOjQp9ZchGgwM-Xzg3KQXSMZQe98x");
+            Places.initialize(getActivity().getApplicationContext(), apikey);
         }
-
-        List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME);
-
-       autocompleteSupportFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME));
-        autocompleteSupportFragment.setTypeFilter(TypeFilter.CITIES);
         PlacesClient placesClient = Places.createClient(getContext());
 
-        lc.setOnClickListener(new View.OnClickListener() {
+        autocompleteSupportFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME));
+
+        autocompleteSupportFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Autocomplete.IntentBuilder(
-                        AutocompleteActivityMode.FULLSCREEN, fields)
-                        .build(getContext());
-                startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
+            public void onPlaceSelected(Place place) {
+                // TODO: Get info about the selected place.
+                Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
+                Toast.makeText(getContext(), place.getName(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(Status status) {
+                // TODO: Handle the error.
+                Log.i(TAG, "An error occurred: " + status);
             }
         });
 
-
-       autocompleteSupportFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
-           @Override
-           public void onPlaceSelected(@NonNull Place place) {
-               Toast.makeText(getContext(), ""+place.getName(), Toast.LENGTH_SHORT).show();
-           }
-
-           @Override
-           public void onError(@NonNull Status status) {
-
-           }
-       });
         return view;
     }
 

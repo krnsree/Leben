@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-
 import static Utils.PreferencesUtility.LOGGED_IN_PREF;
 
 public class SaveSharedPreference {
@@ -16,6 +14,7 @@ public class SaveSharedPreference {
 
     /**
      * Set the Login Status
+     *
      * @param context
      * @param loggedIn
      */
@@ -27,6 +26,7 @@ public class SaveSharedPreference {
 
     /**
      * Get the Login Status
+     *
      * @param context
      * @return boolean: login status
      */
@@ -34,19 +34,17 @@ public class SaveSharedPreference {
         return getPreferences(context).getBoolean(LOGGED_IN_PREF, false);
     }
 
-    public static void setAccount(Context context, GoogleSignInAccount account){
+    public static void setAccount(Context context, String Name) {
         SharedPreferences.Editor editor = getPreferences(context).edit();
-        editor.putString("Account Name", account.getDisplayName());
+        editor.putString("Account Name", Name);
         editor.apply();
     }
-
-    public static String getAccount(Context context){
+    public static String getAccount(Context context) {
         return getPreferences(context).getString("Account Name", "");
     }
-
-    public static void setAccountImage(Context context, GoogleSignInAccount account) {
+    public static void setAccountImage(Context context, String photo) {
         SharedPreferences.Editor editor = getPreferences(context).edit();
-        editor.putString("Account Image", String.valueOf(account.getPhotoUrl()));
+        editor.putString("Account Image", photo);
         editor.apply();
     }
 

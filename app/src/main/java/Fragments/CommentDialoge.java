@@ -77,7 +77,7 @@ public class CommentDialoge extends BottomSheetDialogFragment {
                     CommentSection.put("uid", uid);
                     CommentSection.put("Name",SaveSharedPreference.getAccount(getContext()));
                     CommentSection.put("Image",SaveSharedPreference.getAccountImage(getContext()));
-                    ref.collection("Comments").add(CommentSection).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    ref.collection("Comment").add(CommentSection).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                         @Override
                         public void onSuccess(DocumentReference documentReference) {
                             dismiss();

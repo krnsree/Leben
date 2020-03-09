@@ -195,8 +195,8 @@ public class AccountFragment extends BottomSheetDialogFragment {
         if(account!=null)
         {
             SaveSharedPreference.setLoggedIn(getActivity().getApplicationContext(), true);
-            SaveSharedPreference.setAccount(getActivity().getApplicationContext(),account);
-            SaveSharedPreference.setAccountImage(getActivity().getApplicationContext(),account);
+            SaveSharedPreference.setAccount(getActivity().getApplicationContext(),account.getDisplayName());
+            SaveSharedPreference.setAccountImage(getActivity().getApplicationContext(),account.getPhotoUrl().toString());
             setDetails(account);
         }
         else
